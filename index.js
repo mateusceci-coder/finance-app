@@ -1,1 +1,3 @@
-const name = ''
+const hello = ''
+
+console.log(hello)
