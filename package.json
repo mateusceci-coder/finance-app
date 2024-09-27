@@ -16,7 +16,8 @@
         "eslint-config-prettier": "^9.1.0",
         "globals": "^15.9.0",
         "husky": "^8.0.3",
-        "lint-staged": "^15.2.10"
+        "lint-staged": "^15.2.10",
+        "prettier": "^3.3.3"
     },
     "dependencies": {
         "git-commit-msg-linter": "^5.0.8"
