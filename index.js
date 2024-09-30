@@ -5,6 +5,8 @@ import { pool } from './src/db/postgres/helper.js'
 
 const app = express()
 
+app.use(express.json())
+
 app.get('/', async (req, res) => {
     const client = await pool.connect()
 
@@ -13,6 +15,6 @@ app.get('/', async (req, res) => {
     res.send(JSON.stringify(results.rows))
 })
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000')
+app.listen(process.env.PORT, () => {
+    console.log('Server is running on port 8000')
 })
