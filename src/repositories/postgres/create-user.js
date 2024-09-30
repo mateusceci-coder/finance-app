@@ -5,7 +5,7 @@ export class PostgresCreateUserRepository {
         const results = await PostgresHelper.query(
             'INSERT INTO users (ID, fist_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5)',
             [
-                createUserParams.ID,
+                createUserParams.id,
                 createUserParams.first_name,
                 createUserParams.last_name,
                 createUserParams.email,
