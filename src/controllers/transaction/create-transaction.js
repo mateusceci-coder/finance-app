@@ -1,11 +1,13 @@
-import validator from 'validator'
 import {
-    badRequest,
     checkIfIdIsValid,
     created,
     invalidIdResponse,
     requiredFieldIsMissingResponse,
     validateRequiredFields,
+    checkIfAmountIsValid,
+    checkIfTypeIsValid,
+    invalidAmountResponse,
+    invalidTypeResponse,
 } from '../helpers/index.js'
 
 export class CreateTransactionController {
@@ -36,33 +38,17 @@ export class CreateTransactionController {
                 return invalidIdResponse()
             }
 
-            if (params.amount <= 0) {
-                return badRequest({ message: `Amount must be greater than 0` })
-            }
-
-            const amountIsValid = validator.isCurrency(
-                params.amount.toString(),
-                {
-                    digits_after_decimal: [2],
-                    allow_negatives: false,
-                    decimal_separator: '.',
-                },
-            )
+            const amountIsValid = checkIfAmountIsValid(params.amount)
 
             if (!amountIsValid) {
-                return badRequest({ message: `Amount is invalid` })
+                invalidAmountResponse()
             }
 
             const type = params.type.trim().toUpperCase()
 
-            const typeIsValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(
-                type,
-            )
-
+            const typeIsValid = checkIfTypeIsValid(type)
             if (!typeIsValid) {
-                return badRequest({
-                    message: `Type must be EARNING, EXPENSE or INVESTMENT`,
-                })
+                return invalidTypeResponse()
             }
 
             const transaction = await this.createTransactionUseCase.execute({
