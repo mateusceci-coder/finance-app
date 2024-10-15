@@ -51,8 +51,6 @@ app.post('/api/transactions', async (request, response) => {
     const { statusCode, body } =
         await createTransactionController.execute(request)
 
-    console.log({ statusCode, body })
-
     response.status(statusCode).send(body)
 })
 
