@@ -3,8 +3,7 @@ import { badRequest } from './http.js'
 
 export const checkIfIdIsValid = (id) => validator.isUUID(id)
 
-export const invalidIdResponse = () =>
-    badRequest({ message: 'Invalid user ID' })
+export const invalidIdResponse = () => badRequest({ message: 'Invalid ID' })
 
 export const checkIfIsString = (value) => typeof value === 'string'
 
