@@ -28,6 +28,7 @@
         "git-commit-msg-linter": "^5.0.8",
         "pg": "^8.13.0",
         "uuid": "^10.0.0",
-        "validator": "^13.12.0"
+        "validator": "^13.12.0",
+        "zod": "^3.23.8"
     }
 }
