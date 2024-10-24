@@ -1,14 +1,6 @@
-import {
-    checkIfIdIsValid,
-    created,
-    invalidIdResponse,
-    requiredFieldIsMissingResponse,
-    validateRequiredFields,
-    checkIfAmountIsValid,
-    checkIfTypeIsValid,
-    invalidAmountResponse,
-    invalidTypeResponse,
-} from '../helpers/index.js'
+import { createTransactionSchema } from '../../schemas/index.js'
+import { badRequest, created } from '../helpers/index.js'
+import { z } from 'zod'
 
 export class CreateTransactionController {
     constructor(createTransactionUseCase) {
@@ -19,45 +11,16 @@ export class CreateTransactionController {
         try {
             const params = httpRequest.body
 
-            const requiredFields = ['user_id', 'name', 'date', 'amount', 'type']
+            await createTransactionSchema.parseAsync(params)
 
-            const requiredFieldsValidation = validateRequiredFields(
-                params,
-                requiredFields,
-            )
-
-            if (!requiredFieldsValidation.ok) {
-                return requiredFieldIsMissingResponse(
-                    requiredFieldsValidation.missingField,
-                )
-            }
-
-            const userIdIsValid = checkIfIdIsValid(params.user_id)
-
-            if (!userIdIsValid) {
-                return invalidIdResponse()
-            }
-
-            const amountIsValid = checkIfAmountIsValid(params.amount)
-
-            if (!amountIsValid) {
-                invalidAmountResponse()
-            }
-
-            const type = params.type.trim().toUpperCase()
-
-            const typeIsValid = checkIfTypeIsValid(type)
-            if (!typeIsValid) {
-                return invalidTypeResponse()
-            }
-
-            const transaction = await this.createTransactionUseCase.execute({
-                ...params,
-                type,
-            })
+            const transaction =
+                await this.createTransactionUseCase.execute(params)
 
             return created(transaction)
         } catch (error) {
+            if (error instanceof z.ZodError) {
+                return badRequest({ message: error.errors[0].message })
+            }
             console.error(error)
         }
     }
