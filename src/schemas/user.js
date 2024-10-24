@@ -6,3 +6,5 @@ export const createUserSchema = z.object({
     email: z.string().email().trim().min(3),
     password: z.string().trim().min(6),
 })
+
+export const updateUserSchema = createUserSchema.partial().strict()
