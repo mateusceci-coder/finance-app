@@ -22,3 +22,8 @@ export const invalidTypeResponse = () =>
     badRequest({
         message: `Type must be EARNING, EXPENSE or INVESTMENT`,
     })
+
+export const invalidTransactionResponse = () =>
+    badRequest({
+        message: 'Transaction not found',
+    })
